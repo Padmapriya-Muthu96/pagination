@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pagination</title>
+    <style>
+        /* Pagination styles */
+        /* Pagination styles */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  background-color: aqua;
+}
+
+.pagination a {
+  color: blue;
+  margin: 0 5px;
+  padding: 5px;
+  text-decoration: none;
+  border: 1px solid black;
+  border-radius: 3px;
+}
+
+.pagination a:hover {
+  background-color: #a1df9f;
+}
+
+.pagination a.active {
+  background-color: blue;
+  color: white;
+}
+
+.pagination .prev,
+.pagination .next {
+  color: #666;
+  margin: 0 5px;
+  padding: 5px;
+  text-decoration: none;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.pagination .prev:hover,
+.pagination .next:hover {
+  background-color: #f2f2f2;
+}
+
+.pagination .prev:disabled,
+.pagination .next:disabled {
+  color: #ccc;
+  cursor: default;
+}
+
+.pagination .page-numbers {
+  display: inline-block;
+  margin: 0 5px;
+  padding: 5px;
+  text-decoration: none;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.pagination .page-numbers:hover {
+  background-color: #f2f2f2;
+}
+
+.pagination .page-numbers.current {
+  background-color: blue;
+  color: white;
+}
+  
+        /* Content styles */
+        .content {
+          margin-top: 20px;
+        }
+  
+        .content div {
+          border: 1px solid black;
+          padding: 10px;
+          margin-bottom: 10px;
+        }
+        body{
+            background-image: url("data:image/jpeg;base64,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");
+        }
+      </style>
+        
+</head>
+<body>
+    <div id="content" class="content">
+        <h1 style="text-align: center;">OUR TAMILNADU</h1>
+        <p>Here we Will see the wounders of our tamilnadu.</p>
+        <!-- Items to display on each page -->
+        <div>
+            <h2 >Meenakshi Temple</h2>
+            <img src="https://3.bp.blogspot.com/-eOcam5hxjGI/WnP-3gjm0NI/AAAAAAAADDQ/zjhaALQH-lETkV6sY3g0unfy5d1Rp7ACwCLcBGAs/s640/3808209672_a2f35dea02_z.jpg">
+            <p>The historic Hindu temple of Meenakshi Amman is always busy with thousands of pilgrims from all across the country visiting the temple every day. The temple is located on the Vaigai River’s southern banks in Madurai, a city that is nicknamed as the Temple City. The temple is dedicated to Meenakshi, a form of Parvati, the consort of Lord Shiva. Other Hindu deities are also worshipped here. Although the temple is very ancient, it was expanded, reconstructed, repaired, and renovated a number of times in the past few centuries. In the 14th century, the Muslim Commander Malik Kafur plundered the temple with his armies. The Vijayanagara kings then rebuilt the temple. The 10-day long Meenakshi Tirukalyanam festival held at this temple attracts more than a million visitors to this temple each year. There is thus no wonder that the Meenakshi Temple is the number one of the Seven Wonders Of Tamil Nadu.</p>
+        </div>
+        <div>
+            <h4> Brihadishvara Temple</h4>
+            <img src="https://2.bp.blogspot.com/-M4ULiwvBQvo/WnP9IEVqN0I/AAAAAAAADCg/LuG4zfTA9bgQxOc924nTkmTtE8MVBudYgCLcBGAs/s1600/brihadishvara-2358280_640.jpg">
+            <p>The Hindu temple dedicated to Lord Shiva is one of the Seven Wonders of Tamil Nadu. The temple is located in Thanjavur. One of the best examples of Tamil architecture, the temple was built between 1003 and 1010 AD by Raja Raja Chola I of the Chola Empire. The temple, together with two other Chola temples, is part of a UNESCO World Heritage Site. The temple has one of India’s largest Shiva lingas. Other Hindu gods and goddesses are also worshipped here.</p>
+        </div>
+        <div>
+            <h4>Ramanathaswamy Temple</h4>
+            <img src="https://1.bp.blogspot.com/-RLfQBJHWndE/WnP9T4ZiIEI/AAAAAAAADCk/tYyS2GrjftoYSrkz4fuKvhbYRrF55zLGwCLcBGAs/s640/Rameswaram_Temple_Inside.jpg">
+            <p>Another spectacular temple in Tamil Nadu is the Ramanathaswamy Temple. It is located on the Rameswaram island and is an important pilgrimage spot in the country, one of the holiest Hindu Char Dhams. The temple is associated with rich Indian history. It is said that three revered Saivite saints sang their devotional songs in the temple and heightened its glory. No concrete evidence of the date of construction of the temple exists but it is believed to have taken its present form during the 17th century. Several kings belonging to different dynasties have contributed towards the building, maintenance, extension, and reconstruction of the temple over a period of several centuries.</p>
+        </div>
+        <div>
+            <h4>Tiruchirappalli Rockfort</h4>
+            <img src="https://4.bp.blogspot.com/-dLT3sEuRw34/WnP9grGlOZI/AAAAAAAADCs/fVSkL_sMZrQ_LgeizMzLbygGLMoWI9YhwCLcBGAs/s640/6357418619_cd84dc50e7_z.jpg">
+            <p>Located in the city of Tiruchirappalli is another one of the Seven Wonders of Tamil Nadu. It is a fortification built on a rock and is named the Tiruchirappalli Rockfort. The rock on which the fort is built is about one billion years old. The fort complex hosts several temples which are a sight to admire. The Ucchi Pillayar and the Thayumanaswami temples are notable rock-cut temples in the area. The Tiruchirappalli Rockfort bears witness to several historical battles and played an important role in establishing the British Empire in the country. </p>
+        </div>
+        <div>
+            <h4>Mamallapuram Sculpture</h4>
+            <img src="https://4.bp.blogspot.com/-xnIERsLr6BQ/WnP9zT1CCFI/AAAAAAAADC4/cU8TgCA2pRo4t--2okdXwnmw8tFqSsZcACLcBGAs/s640/Stone_Sculpture_Representing_The_Group_Of_Elephants%252C_Monkeys_-_Mamallapuram_-_Kanchipuram_%25283%2529.jpg">
+            <p>The coastal resort town of Mamallapuram in Tamil Nadu hosts a group of monuments that are together regarded as one of the ‘Seven Wonders of Tamil Nadu.’ The historical importance of these structures have been recognized by the UNESCO who has inscribed the monuments as a World Heritage Site. 40 ancient temples and monuments dot the site. The Descent of the Ganges, one of the world’s largest open-air rock reliefs, is found here. Temples with monolithic processional chariots, cave temples, Vaishna inscriptions, rock reliefs, stone-cut temples, etc., are some of the awe-inspiring monuments to be seen at the site. Most of these monuments were built during the Pallava dynasty. </p>
+        </div>
+        <div>
+            <h4>University Of Madras Senate House</h4>
+            <img src="https://2.bp.blogspot.com/-Wj3CPh1-xog/WnP98RbUC0I/AAAAAAAADC8/39PKLip4-5YGUi1W_ojWO7iB5RyV2kXIQCLcBGAs/s640/640px-Madras_University_Senate_House.jpg">
+            <p>The University Of Madras Senate House is located in Chennai, the capital city of Tamil Nadu. The building was built between 1874 and 1879 by Robert Chisholm. The building is one of the best examples of the Indo-Saracenic architectural style. Several elements of the Byzantine style are incorporated in the design of the building. The great hall of the Senate House has highly impressive proportions.</p>
+        </div>
+        <div>
+            <h4> Kanadukathan Chettinad Palace</h4>
+            <img src="https://3.bp.blogspot.com/-e7_FvsawR2Y/WnP-qNo_4UI/AAAAAAAADDM/qe84YNEMaYwGw4IPqYSYp8LR0irr_kYvQCLcBGAs/s640/640px-Chettinad_palace_in_Karaikudi.jpg">
+            <p>The palace also fins itself in the list of Tamil Nadu’s Seven Wonders. It is located in the Sivaganga district of the state. It is an exemplary example of the Chettinad architectural style. The palace was constructed in 1912 and its design also reflects a glimpse of European influence. Dr. Annamalai Chettiyar, the founder of the Annamalai University and the Indian Bank guided the building of this palace. The lush green gardens surrounding this palace further enhances its beauty.</p>
+        </div>
+        
+      </div>
+  
+      <div id="pagination" class="pagination"></div>
+      <script src="script.js"></script>
+</body>
+</html>
